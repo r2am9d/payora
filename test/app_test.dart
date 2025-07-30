@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:payora/app.dart';
-import 'package:payora/core/widgets/shell/index.dart';
+import 'package:payora/core/shared/widgets/shell/index.dart';
 
 void main() {
   group('App', () {

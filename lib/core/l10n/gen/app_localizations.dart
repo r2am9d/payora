@@ -118,6 +118,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profile'**
   String get bottomNavbarItemProfile;
+
+  /// No description provided for @walletGreetingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello'**
+  String get walletGreetingsTitle;
+
+  /// No description provided for @walletGreetingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today is a great day!'**
+  String get walletGreetingsSubtitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

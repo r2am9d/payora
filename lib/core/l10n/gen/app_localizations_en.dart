@@ -22,4 +22,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bottomNavbarItemProfile => 'Profile';
+
+  @override
+  String get walletGreetingsTitle => 'Hello';
+
+  @override
+  String get walletGreetingsSubtitle => 'Today is a great day!';
 }

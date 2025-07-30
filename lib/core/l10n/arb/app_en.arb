@@ -5,5 +5,8 @@
 
     "bottomNavbarItemWallet": "Wallet",
     "bottomNavbarItemTransactions": "Transactions",
-    "bottomNavbarItemProfile": "Profile"
+    "bottomNavbarItemProfile": "Profile",
+    
+    "walletGreetingsTitle": "Hello",
+    "walletGreetingsSubtitle": "Today is a great day!"
 }

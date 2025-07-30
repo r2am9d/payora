@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payora/core/l10n/l10n.dart';
-import 'package:payora/core/widgets/bottom_navbar/index.dart';
+import 'package:payora/core/shared/widgets/bottom_navbar/index.dart';
 import 'package:payora/features/wallet/index.dart';
 
 class ShellWidget extends StatelessWidget {
@@ -8,11 +8,9 @@ class ShellWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.appName),
+        title: Text(context.l10n.appName),
         centerTitle: true,
       ),
       body: const WalletPage(),
