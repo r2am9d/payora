@@ -1,4 +1,4 @@
-import 'package:payora/app/app.dart';
+import 'package:payora/app.dart';
 import 'package:payora/bootstrap.dart';
 
 void main() {

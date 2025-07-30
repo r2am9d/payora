@@ -1,0 +1,9 @@
+{
+    "@@locale": "en",
+    
+    "appName": "Payora",
+
+    "bottomNavbarItemWallet": "Wallet",
+    "bottomNavbarItemTransactions": "Transactions",
+    "bottomNavbarItemProfile": "Profile"
+}
