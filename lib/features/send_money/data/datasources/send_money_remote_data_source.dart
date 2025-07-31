@@ -37,7 +37,7 @@ class SendMoneyRemoteDataSourceImpl implements SendMoneyRemoteDataSource {
       }
     } on DioException {
       rethrow;
-    } catch (e) {
+    } on Exception catch (e) {
       throw DioException(
         requestOptions: RequestOptions(path: '/posts'),
         message: 'Unexpected error: $e',
@@ -67,7 +67,7 @@ class SendMoneyRemoteDataSourceImpl implements SendMoneyRemoteDataSource {
       }
     } on DioException {
       rethrow;
-    } catch (e) {
+    } on Exception catch (e) {
       throw DioException(
         requestOptions: RequestOptions(path: '/posts'),
         message: 'Unexpected error: $e',

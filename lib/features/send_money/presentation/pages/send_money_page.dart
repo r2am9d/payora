@@ -1,3 +1,5 @@
+// ignore_for_file: use_if_null_to_convert_nulls_to_bools, document_ignores
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -81,10 +83,14 @@ class SendMoneyPage extends StatelessWidget {
                         width: double.infinity,
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: context.appColors.primary.withOpacity(0.1),
+                          color: context.appColors.primary.withValues(
+                            alpha: 0.1,
+                          ),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: context.appColors.primary.withOpacity(0.3),
+                            color: context.appColors.primary.withValues(
+                              alpha: 0.3,
+                            ),
                           ),
                         ),
                         child: Column(

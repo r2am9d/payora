@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_positional_boolean_parameters, document_ignores
+
 import 'package:equatable/equatable.dart';
 
 /// Theme events

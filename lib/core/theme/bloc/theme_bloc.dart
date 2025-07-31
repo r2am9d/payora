@@ -31,7 +31,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
           themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       // Default to light theme if there's an error
       emit(
         const ThemeLoaded(

@@ -18,7 +18,7 @@ class WalletPage extends StatelessWidget {
         final cardNumber = LoginBloc.generatedCardNumber;
 
         // Use actual username if authenticated, otherwise use default name
-        String userName = userData['name'] as String;
+        var userName = userData['name'] as String;
         if (loginState is LoginAuthenticatedState) {
           // You can customize this to show actual user name
           userName = loginState.username == LoginBloc.defaultUsername

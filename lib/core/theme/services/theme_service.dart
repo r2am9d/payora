@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_positional_boolean_parameters, document_ignores
+
 /// Service for managing theme preferences
 class ThemeService {
   // In-memory storage for demo purposes

@@ -20,7 +20,7 @@ class SendMoneyRepositoryImpl implements SendMoneyRepository {
 
       // Convert back to entity for domain layer
       return result.toEntity();
-    } catch (e) {
+    } on Exception catch (e) {
       rethrow;
     }
   }
@@ -31,7 +31,7 @@ class SendMoneyRepositoryImpl implements SendMoneyRepository {
       final transactionModels = await _remoteDataSource.getTransactionHistory();
 
       return transactionModels.map((model) => model.toEntity()).toList();
-    } catch (e) {
+    } on Exception catch (e) {
       rethrow;
     }
   }

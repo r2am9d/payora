@@ -9,7 +9,7 @@ class AuthService {
     try {
       final prefs = await SharedPreferences.getInstance();
       return prefs.getBool(_isLoggedInKey) ?? false;
-    } catch (e) {
+    } on Exception catch (e) {
       return false;
     }
   }
@@ -19,7 +19,7 @@ class AuthService {
     try {
       final prefs = await SharedPreferences.getInstance();
       return prefs.getString(_usernameKey);
-    } catch (e) {
+    } on Exception catch (e) {
       return null;
     }
   }
@@ -36,7 +36,7 @@ class AuthService {
       await prefs.setBool(_isLoggedInKey, true);
       await prefs.setString(_usernameKey, username);
       return true;
-    } catch (e) {
+    } on Exception catch (e) {
       return false;
     }
   }
@@ -47,7 +47,7 @@ class AuthService {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(_isLoggedInKey, false);
       await prefs.remove(_usernameKey);
-    } catch (e) {
+    } on Exception catch (e) {
       // Handle error silently for now
     }
   }
@@ -58,7 +58,7 @@ class AuthService {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove(_isLoggedInKey);
       await prefs.remove(_usernameKey);
-    } catch (e) {
+    } on Exception catch (e) {
       // Handle error silently for now
     }
   }

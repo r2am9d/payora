@@ -45,7 +45,7 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState>
       final amount = event.amount;
       final balanceCurrent = states<BalanceCurrent>()!;
       emit(BalanceCurrent(balance: balanceCurrent.balance - amount));
-    } catch (e) {
+    } on Exception catch (e) {
       AppLog.d(
         'Failed to initialize balance: $e',
       );

@@ -1,5 +1,10 @@
 include: package:very_good_analysis/analysis_options.yaml
 analyzer:
+  errors:
+    lines_longer_than_80_chars: ignore
+    directives_ordering: ignore
+    avoid_bool_literals_in_conditional_expressions: ignore
+    unused_catch_clause: ignore
   exclude:
     - lib/l10n/gen/*
     - coverage/*

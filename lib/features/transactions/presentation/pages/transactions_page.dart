@@ -278,7 +278,7 @@ class TransactionsPage extends StatelessWidget {
     try {
       final dateTime = DateTime.parse(timeString);
       return '${_getMonthName(dateTime.month)} ${dateTime.day}, ${dateTime.year} at ${_formatTime12Hour(dateTime)}';
-    } catch (e) {
+    } on Exception catch (e) {
       return timeString;
     }
   }

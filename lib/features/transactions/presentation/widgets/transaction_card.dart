@@ -155,7 +155,7 @@ class TransactionCard extends StatelessWidget {
       } else {
         return 'Just now';
       }
-    } catch (e) {
+    } on Exception catch (e) {
       // Fallback to original string if parsing fails
       return timeString;
     }

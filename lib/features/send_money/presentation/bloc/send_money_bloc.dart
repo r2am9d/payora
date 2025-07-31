@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -74,22 +73,13 @@ class SendMoneyBloc extends Bloc<SendMoneyEvent, SendMoneyState>
           message: 'Transaction completed successfully!',
         ),
       );
-    } on ArgumentError catch (e) {
+    } on Exception catch (e, trace) {
       LoadingDialog.hide();
-      AppLog.e('Validation error: ${e.message}');
+      AppLog.e('Transaction failed: $e', error: e, trace: trace);
       emit(
         SendMoneyStatus(
           success: false,
-          message: 'Validation error: ${e.message}',
-        ),
-      );
-    } catch (e, trace) {
-      LoadingDialog.hide();
-      AppLog.e('Transaction failed: ${e.toString()}', error: e, trace: trace);
-      emit(
-        SendMoneyStatus(
-          success: false,
-          message: 'Transaction failed: ${e.toString()}',
+          message: 'Transaction failed: $e',
         ),
       );
     }

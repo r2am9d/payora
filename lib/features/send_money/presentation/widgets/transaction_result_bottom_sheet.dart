@@ -248,7 +248,6 @@ class TransactionResultBottomSheet extends StatelessWidget {
               child: FilledButton.icon(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  // TODO: Retry the transaction
                 },
                 icon: const Icon(Icons.refresh_rounded),
                 label: const Text('Try Again'),
