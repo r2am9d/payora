@@ -41,16 +41,6 @@ class SendMoneyPage extends StatelessWidget {
 
               // Clear form and deduct balance on successful transaction
               if (statusState.success == true) {
-                final transaction = smBloc
-                    .states<SendMoneyTransactionList>()
-                    ?.transactions
-                    .first;
-                if (transaction != null) {
-                  // Deduct amount from balance
-                  balanceBloc.add(
-                    BalanceDeductEvent(amount: transaction.amount),
-                  );
-                }
                 smBloc.add(const SendMoneyClearForm());
               }
 

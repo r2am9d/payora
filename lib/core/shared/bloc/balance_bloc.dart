@@ -44,6 +44,10 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState>
     try {
       final amount = event.amount;
       final balanceCurrent = states<BalanceCurrent>()!;
+      AppLog.d(
+        '@@@: Deducting amount: $amount from balance: ${balanceCurrent.balance}',
+      );
+
       emit(BalanceCurrent(balance: balanceCurrent.balance - amount));
     } on Exception catch (e) {
       AppLog.d(

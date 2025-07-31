@@ -53,6 +53,8 @@ class SendMoneyBloc extends Bloc<SendMoneyEvent, SendMoneyState>
       // Execute transaction using the use case
       await _sendTransactionUseCase(transaction);
 
+      AppLog.d('@@@: Transaction executed successfully: ${transaction.amount}');
+
       balanceBloc.add(
         BalanceDeductEvent(amount: transaction.amount),
       );
