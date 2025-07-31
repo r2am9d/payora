@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:payora/core/extensions/theme_extension.dart';
 import 'package:payora/core/l10n/l10n.dart';
 import 'package:payora/core/shared/widgets/bottom_navbar/index.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class BottomNavbarWidget extends StatelessWidget {
-  const BottomNavbarWidget({super.key});
+  const BottomNavbarWidget({
+    required this.navigationShell,
+    super.key,
+  });
+
+  final StatefulNavigationShell navigationShell;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +36,7 @@ class BottomNavbarWidget extends StatelessWidget {
             currentIndex: bnIndex.index,
             onTap: (i) {
               bnBloc.add(BottomNavbarSetIndex(index: i));
+              navigationShell.goBranch(i);
             },
             items: [
               SalomonBottomBarItem(

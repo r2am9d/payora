@@ -8,5 +8,10 @@
     "bottomNavbarItemProfile": "Profile",
     
     "walletGreetingsTitle": "Hello",
-    "walletGreetingsSubtitle": "Today is a great day!"
+    "walletGreetingsSubtitle": "Today is a great day!",
+
+    "walletCardSubtitile": "Balance",
+    
+    "walletActionsItemSendMoney": "Send Money",
+    "walletActionsItemViewTransactions": "View Transactions"
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   AppTheme._();
@@ -158,111 +159,113 @@ class AppTheme {
       ),
 
       // Text theme
-      textTheme: const TextTheme(
-        displayLarge: TextStyle(
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
-          color: _black,
-          height: 1.25, // 40px line height
-          letterSpacing: -0.25,
-        ),
-        displayMedium: TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-          color: _black,
-          height: 1.29, // 36px line height
-          letterSpacing: 0,
-        ),
-        displaySmall: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
-          color: _black,
-          height: 1.33, // 32px line height
-          letterSpacing: 0,
-        ),
-        headlineLarge: TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.w600,
-          color: _black,
-          height: 1.45, // 32px line height
-          letterSpacing: 0,
-        ),
-        headlineMedium: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: _black,
-          height: 1.5, // 30px line height - good spacing for greeting text
-          letterSpacing: 0,
-        ),
-        headlineSmall: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-          color: _black,
-          height: 1.44, // 26px line height
-          letterSpacing: 0,
-        ),
-        titleLarge: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: _black,
-          height: 1.5, // 24px line height
-          letterSpacing: 0.15,
-        ),
-        titleMedium: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: _black,
-          height: 1.43, // 20px line height
-          letterSpacing: 0.15,
-        ),
-        titleSmall: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-          color: _black,
-          height: 1.33, // 16px line height
-          letterSpacing: 0.1,
-        ),
-        bodyLarge: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.normal,
-          color: _black,
-          height: 1.5, // 24px line height - comfortable reading
-          letterSpacing: 0.15,
-        ),
-        bodyMedium: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-          color: _black,
-          height: 1.43, // 20px line height
-          letterSpacing: 0.25,
-        ),
-        bodySmall: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.normal,
-          color: _mediumGrey,
-          height: 1.67, // 20px line height - extra spacing for subtitles
-          letterSpacing: 0.4,
-        ),
-        labelLarge: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: _black,
-          height: 1.43, // 20px line height
-          letterSpacing: 0.1,
-        ),
-        labelMedium: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-          color: _black,
-          height: 1.33, // 16px line height
-          letterSpacing: 0.5,
-        ),
-        labelSmall: TextStyle(
-          fontSize: 10,
-          fontWeight: FontWeight.w500,
-          color: _mediumGrey,
-          height: 1.6, // 16px line height
-          letterSpacing: 0.5,
+      textTheme: GoogleFonts.nunitoSansTextTheme(
+        const TextTheme(
+          displayLarge: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: _black,
+            height: 1.25, // 40px line height
+            letterSpacing: -0.25,
+          ),
+          displayMedium: TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: _black,
+            height: 1.29, // 36px line height
+            letterSpacing: 0,
+          ),
+          displaySmall: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+            color: _black,
+            height: 1.33, // 32px line height
+            letterSpacing: 0,
+          ),
+          headlineLarge: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
+            color: _black,
+            height: 1.45, // 32px line height
+            letterSpacing: 0,
+          ),
+          headlineMedium: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: _black,
+            height: 1.5, // 30px line height
+            letterSpacing: 0,
+          ),
+          headlineSmall: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: _black,
+            height: 1.44, // 26px line height
+            letterSpacing: 0,
+          ),
+          titleLarge: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: _black,
+            height: 1.5, // 24px line height
+            letterSpacing: 0.15,
+          ),
+          titleMedium: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: _black,
+            height: 1.43, // 20px line height
+            letterSpacing: 0.15,
+          ),
+          titleSmall: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: _black,
+            height: 1.33, // 16px line height
+            letterSpacing: 0.1,
+          ),
+          bodyLarge: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.normal,
+            color: _black,
+            height: 1.5, // 24px line height
+            letterSpacing: 0.15,
+          ),
+          bodyMedium: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            color: _black,
+            height: 1.43, // 20px line height
+            letterSpacing: 0.25,
+          ),
+          bodySmall: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.normal,
+            color: _mediumGrey,
+            height: 1.67, // 20px line height
+            letterSpacing: 0.4,
+          ),
+          labelLarge: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: _black,
+            height: 1.43, // 20px line height
+            letterSpacing: 0.1,
+          ),
+          labelMedium: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: _black,
+            height: 1.33, // 16px line height
+            letterSpacing: 0.5,
+          ),
+          labelSmall: TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.w500,
+            color: _mediumGrey,
+            height: 1.6, // 16px line height
+            letterSpacing: 0.5,
+          ),
         ),
       ),
 
@@ -430,111 +433,113 @@ class AppTheme {
       ),
 
       // Text theme
-      textTheme: const TextTheme(
-        displayLarge: TextStyle(
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
-          color: _white,
-          height: 1.25, // 40px line height
-          letterSpacing: -0.25,
-        ),
-        displayMedium: TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-          color: _white,
-          height: 1.29, // 36px line height
-          letterSpacing: 0,
-        ),
-        displaySmall: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
-          color: _white,
-          height: 1.33, // 32px line height
-          letterSpacing: 0,
-        ),
-        headlineLarge: TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.w600,
-          color: _white,
-          height: 1.45, // 32px line height
-          letterSpacing: 0,
-        ),
-        headlineMedium: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: _white,
-          height: 1.5, // 30px line height - good spacing for greeting text
-          letterSpacing: 0,
-        ),
-        headlineSmall: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-          color: _white,
-          height: 1.44, // 26px line height
-          letterSpacing: 0,
-        ),
-        titleLarge: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: _white,
-          height: 1.5, // 24px line height
-          letterSpacing: 0.15,
-        ),
-        titleMedium: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: _white,
-          height: 1.43, // 20px line height
-          letterSpacing: 0.15,
-        ),
-        titleSmall: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-          color: _white,
-          height: 1.33, // 16px line height
-          letterSpacing: 0.1,
-        ),
-        bodyLarge: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.normal,
-          color: _white,
-          height: 1.5, // 24px line height - comfortable reading
-          letterSpacing: 0.15,
-        ),
-        bodyMedium: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-          color: _white,
-          height: 1.43, // 20px line height
-          letterSpacing: 0.25,
-        ),
-        bodySmall: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.normal,
-          color: _mediumGrey,
-          height: 1.67, // 20px line height - extra spacing for subtitles
-          letterSpacing: 0.4,
-        ),
-        labelLarge: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: _white,
-          height: 1.43, // 20px line height
-          letterSpacing: 0.1,
-        ),
-        labelMedium: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-          color: _white,
-          height: 1.33, // 16px line height
-          letterSpacing: 0.5,
-        ),
-        labelSmall: TextStyle(
-          fontSize: 10,
-          fontWeight: FontWeight.w500,
-          color: _mediumGrey,
-          height: 1.6, // 16px line height
-          letterSpacing: 0.5,
+      textTheme: GoogleFonts.nunitoSansTextTheme(
+        const TextTheme(
+          displayLarge: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: _white,
+            height: 1.25, // 40px line height
+            letterSpacing: -0.25,
+          ),
+          displayMedium: TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: _white,
+            height: 1.29, // 36px line height
+            letterSpacing: 0,
+          ),
+          displaySmall: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+            color: _white,
+            height: 1.33, // 32px line height
+            letterSpacing: 0,
+          ),
+          headlineLarge: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
+            color: _white,
+            height: 1.45, // 32px line height
+            letterSpacing: 0,
+          ),
+          headlineMedium: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: _white,
+            height: 1.5, // 30px line height
+            letterSpacing: 0,
+          ),
+          headlineSmall: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: _white,
+            height: 1.44, // 26px line height
+            letterSpacing: 0,
+          ),
+          titleLarge: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: _white,
+            height: 1.5, // 24px line height
+            letterSpacing: 0.15,
+          ),
+          titleMedium: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: _white,
+            height: 1.43, // 20px line height
+            letterSpacing: 0.15,
+          ),
+          titleSmall: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: _white,
+            height: 1.33, // 16px line height
+            letterSpacing: 0.1,
+          ),
+          bodyLarge: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.normal,
+            color: _white,
+            height: 1.5, // 24px line height
+            letterSpacing: 0.15,
+          ),
+          bodyMedium: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            color: _white,
+            height: 1.43, // 20px line height
+            letterSpacing: 0.25,
+          ),
+          bodySmall: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.normal,
+            color: _mediumGrey,
+            height: 1.67, // 20px line height
+            letterSpacing: 0.4,
+          ),
+          labelLarge: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: _white,
+            height: 1.43, // 20px line height
+            letterSpacing: 0.1,
+          ),
+          labelMedium: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: _white,
+            height: 1.33, // 16px line height
+            letterSpacing: 0.5,
+          ),
+          labelSmall: TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.w500,
+            color: _mediumGrey,
+            height: 1.6, // 16px line height
+            letterSpacing: 0.5,
+          ),
         ),
       ),
 

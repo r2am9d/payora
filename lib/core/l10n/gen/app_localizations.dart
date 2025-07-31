@@ -130,6 +130,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today is a great day!'**
   String get walletGreetingsSubtitle;
+
+  /// No description provided for @walletCardSubtitile.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get walletCardSubtitile;
+
+  /// No description provided for @walletActionsItemSendMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Money'**
+  String get walletActionsItemSendMoney;
+
+  /// No description provided for @walletActionsItemViewTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'View Transactions'**
+  String get walletActionsItemViewTransactions;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

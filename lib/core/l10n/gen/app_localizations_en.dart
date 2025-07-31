@@ -28,4 +28,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get walletGreetingsSubtitle => 'Today is a great day!';
+
+  @override
+  String get walletCardSubtitile => 'Balance';
+
+  @override
+  String get walletActionsItemSendMoney => 'Send Money';
+
+  @override
+  String get walletActionsItemViewTransactions => 'View Transactions';
 }

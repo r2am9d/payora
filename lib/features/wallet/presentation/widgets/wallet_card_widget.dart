@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:payora/core/extensions/index.dart';
 import 'package:payora/core/extensions/num_extension.dart';
+import 'package:payora/core/l10n/l10n.dart';
 import 'package:payora/features/wallet/presentation/bloc/bloc/wallet_bloc.dart';
 
-class WalletWidget extends StatelessWidget {
-  const WalletWidget({
+class WalletCardWidget extends StatelessWidget {
+  const WalletCardWidget({
     super.key,
     this.name = 'PayWallet',
     this.cardNumber = 110110110110110,
@@ -61,7 +62,7 @@ class WalletWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 50),
                 Text(
-                  'Balance:',
+                  '${context.l10n.walletCardSubtitile}:',
                   style: context.appTextTheme.bodySmall?.copyWith(
                     color: context.appColors.surface.withValues(alpha: 0.75),
                   ),
