@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:payora/core/extensions/num_extension.dart';
 import 'package:payora/core/extensions/theme_extension.dart';
 import 'package:payora/core/l10n/l10n.dart';
 import 'package:payora/core/shared/widgets/appbar/index.dart';
@@ -192,7 +193,7 @@ class TransactionsPage extends StatelessWidget {
           _buildDetailRow(
             context,
             'Amount',
-            '₱${transaction.amount.toStringAsFixed(2)}',
+            '₱${transaction.amount.withComma}',
           ),
           const SizedBox(height: 16),
           _buildDetailRow(
