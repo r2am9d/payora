@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:payora/core/extensions/index.dart';
 import 'package:payora/core/extensions/num_extension.dart';
 import 'package:payora/core/l10n/l10n.dart';
+import 'package:payora/core/shared/bloc/index.dart';
 import 'package:payora/features/wallet/presentation/bloc/bloc/wallet_bloc.dart';
 
 class WalletCardWidget extends StatelessWidget {
@@ -10,12 +11,10 @@ class WalletCardWidget extends StatelessWidget {
     super.key,
     this.name = 'PayWallet',
     this.cardNumber = 110110110110110,
-    this.balance = 1234.56,
   });
 
   final String name;
   final int cardNumber;
-  final double balance;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +50,7 @@ class WalletCardWidget extends StatelessWidget {
                 Text(
                   name,
                   style: context.appTextTheme.headlineMedium?.copyWith(
-                    color: context.appColors.surface.withValues(alpha: 0.75),
+                    color: context.appColors.surface,
                   ),
                 ),
                 Text(
@@ -78,31 +77,36 @@ class WalletCardWidget extends StatelessWidget {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        RichText(
-                          text: TextSpan(
-                            text: '₱ ',
-                            style: context.appTextTheme.headlineLarge?.copyWith(
-                              fontWeight: FontWeight.normal,
-                              color: context.appColors.onSurface.withValues(
-                                alpha: 0.85,
-                              ),
-                            ),
-                            children: [
-                              TextSpan(
-                                text: walletVisibility.visibility
-                                    ? balance.withComma
-                                    : '* * * * * * * *',
+                        BlocBuilder<BalanceBloc, BalanceState>(
+                          builder: (context, balanceState) {
+                            final balanceBloc = context.read<BalanceBloc>();
+
+                            final currentBalance = balanceBloc
+                                .states<BalanceCurrent>()!;
+
+                            return RichText(
+                              text: TextSpan(
+                                text: '₱ ',
                                 style: context.appTextTheme.headlineLarge
                                     ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: context.appColors.onSurface
-                                          .withValues(
-                                            alpha: 0.85,
-                                          ),
+                                      fontWeight: FontWeight.normal,
+                                      color: context.appColors.surface,
                                     ),
+                                children: [
+                                  TextSpan(
+                                    text: walletVisibility.visibility
+                                        ? currentBalance.balance.withComma
+                                        : '* * * * * * * *',
+                                    style: context.appTextTheme.headlineLarge
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: context.appColors.surface,
+                                        ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            );
+                          },
                         ),
                         IconButton(
                           icon: walletVisibility.visibility

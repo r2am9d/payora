@@ -18,9 +18,7 @@ class ShellWidget extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           context.l10n.appName,
-          style: context.appTextTheme.headlineLarge?.copyWith(
-            color: context.appColors.surface,
-          ),
+          style: context.appTextTheme.headlineLarge,
         ),
         centerTitle: true,
       ),

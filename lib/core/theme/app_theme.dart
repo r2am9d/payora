@@ -45,7 +45,7 @@ class AppTheme {
         titleTextStyle: TextStyle(
           color: _white,
           fontSize: 20,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.bold,
         ),
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
