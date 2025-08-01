@@ -6,7 +6,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:payora/core/extensions/index.dart';
-import 'package:payora/core/extensions/num_extension.dart';
 import 'package:payora/core/l10n/l10n.dart';
 import 'package:payora/core/shared/bloc/index.dart';
 import 'package:payora/core/shared/widgets/appbar/index.dart';

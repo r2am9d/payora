@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:payora/core/extensions/index.dart';
-import 'package:payora/core/extensions/num_extension.dart';
 import 'package:payora/features/wallet/presentation/bloc/bloc/wallet_bloc.dart';
 
 class WalletWidget extends StatelessWidget {
@@ -71,8 +70,8 @@ class WalletWidget extends StatelessWidget {
                       previous is WalletVisibility ||
                       current is WalletVisibility,
                   builder: (context, state) {
-                    final walletVisibility = walletBloc
-                        .states<WalletVisibility>()!;
+                    final walletVisibility =
+                        walletBloc.states<WalletVisibility>()!;
 
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,12 +92,11 @@ class WalletWidget extends StatelessWidget {
                                     : '* * * * * * * *',
                                 style: context.appTextTheme.headlineLarge
                                     ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: context.appColors.onSurface
-                                          .withValues(
-                                            alpha: 0.85,
-                                          ),
-                                    ),
+                                  fontWeight: FontWeight.bold,
+                                  color: context.appColors.onSurface.withValues(
+                                    alpha: 0.85,
+                                  ),
+                                ),
                               ),
                             ],
                           ),

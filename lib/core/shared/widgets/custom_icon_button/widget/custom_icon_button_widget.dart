@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:payora/core/extensions/index.dart';
-import 'package:payora/core/extensions/string_extension.dart';
 
 class CustomIconButton extends StatelessWidget {
   const CustomIconButton({

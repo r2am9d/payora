@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:payora/core/extensions/index.dart';
-import 'package:payora/core/extensions/num_extension.dart';
 import 'package:payora/core/l10n/l10n.dart';
 import 'package:payora/core/shared/bloc/index.dart';
 import 'package:payora/features/wallet/presentation/bloc/bloc/wallet_bloc.dart';
@@ -71,8 +70,8 @@ class WalletCardWidget extends StatelessWidget {
                       previous is WalletVisibility ||
                       current is WalletVisibility,
                   builder: (context, state) {
-                    final walletVisibility = walletBloc
-                        .states<WalletVisibility>()!;
+                    final walletVisibility =
+                        walletBloc.states<WalletVisibility>()!;
 
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,17 +80,17 @@ class WalletCardWidget extends StatelessWidget {
                           builder: (context, balanceState) {
                             final balanceBloc = context.read<BalanceBloc>();
 
-                            final currentBalance = balanceBloc
-                                .states<BalanceCurrent>()!;
+                            final currentBalance =
+                                balanceBloc.states<BalanceCurrent>()!;
 
                             return RichText(
                               text: TextSpan(
                                 text: '₱ ',
                                 style: context.appTextTheme.headlineLarge
                                     ?.copyWith(
-                                      fontWeight: FontWeight.normal,
-                                      color: context.appColors.surface,
-                                    ),
+                                  fontWeight: FontWeight.normal,
+                                  color: context.appColors.surface,
+                                ),
                                 children: [
                                   TextSpan(
                                     text: walletVisibility.visibility
@@ -99,9 +98,9 @@ class WalletCardWidget extends StatelessWidget {
                                         : '* * * * * * * *',
                                     style: context.appTextTheme.headlineLarge
                                         ?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          color: context.appColors.surface,
-                                        ),
+                                      fontWeight: FontWeight.bold,
+                                      color: context.appColors.surface,
+                                    ),
                                   ),
                                 ],
                               ),
