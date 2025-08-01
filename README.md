@@ -1,4 +1,5 @@
 # Payora
+
 Next-gen wallet for next-gen living
 
 ![coverage][coverage_badge]
@@ -7,7 +8,16 @@ Next-gen wallet for next-gen living
 
 ---
 
+## Dependency Requirement
+
+- Flutter: 3.32
+- Dart: 3.8
+- VSCode (Preferred code editor)
+
+---
+
 ## Default Credentials
+
 - Username: jdoe123
 - Password: admin123456
 
