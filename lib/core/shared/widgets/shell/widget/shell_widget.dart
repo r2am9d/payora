@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:payora/core/extensions/index.dart';
 import 'package:payora/core/l10n/l10n.dart';
 import 'package:payora/core/shared/widgets/bottom_navbar/index.dart';
 
@@ -15,13 +14,7 @@ class ShellWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          context.l10n.appName,
-          style: context.appTextTheme.headlineLarge,
-        ),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text(context.l10n.appName)),
       body: navigationShell,
       bottomNavigationBar: BottomNavbarWidget(navigationShell: navigationShell),
     );

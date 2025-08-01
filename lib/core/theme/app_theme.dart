@@ -49,7 +49,10 @@ class AppTheme {
         ),
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.light,
+          statusBarIconBrightness:
+              Brightness.light, // For white icons on Android
+          systemNavigationBarIconBrightness:
+              Brightness.light, // For white icons on Android navigation bar
           statusBarBrightness: Brightness.dark,
         ),
       ),
