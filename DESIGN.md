@@ -1,483 +1,688 @@
 # Payora - Design Documentation
 
+*Next-gen wallet for next-gen living*
+
 ## 📋 Table of Contents
-- [Overview](#overview)
-- [Architecture](#architecture)
-- [Design Patterns](#design-patterns)
-- [State Management](#state-management)
-- [Module Structure](#module-structure)
-- [Key Features](#key-features)
-- [Data Flow](#data-flow)
-- [UI/UX Design](#uiux-design)
-- [Security Considerations](#security-considerations)
-- [Testing Strategy](#testing-strategy)
+
+1. [Project Overview](#-project-overview)
+2. [Architecture](#-architecture)
+3. [Class Diagrams](#-class-diagrams)
+4. [Sequence Diagrams](#-sequence-diagrams)
+5. [State Management](#-state-management)
+6. [Data Flow](#-data-flow)
+7. [Technology Stack](#-technology-stack)
+8. [Security](#-security)
 
 ---
 
-## 🎯 Overview
+## 🚀 Project Overview
 
-**Payora** is a next-generation digital wallet application built with Flutter, designed for modern financial transactions and balance management. The app follows clean architecture principles with BLoC pattern for state management, ensuring scalability, maintainability, and testability.
+**Payora** is a modern Flutter-based digital wallet application designed with clean architecture principles, featuring secure money transfers, transaction history, and user profile management.
 
-### Key Objectives
-- 💰 **Secure Financial Management** - Safe and reliable balance tracking
-- 🚀 **Real-time Updates** - Instant balance and transaction updates
-- 📱 **Cross-platform** - iOS, Android, Web, and Desktop support
-- 🎨 **Modern UI/UX** - Intuitive and responsive design
-- 🏗️ **Scalable Architecture** - Modular and maintainable codebase
+### **Key Features**
+- 🔐 **Secure Authentication** with session management
+- 💰 **Wallet Management** with balance visibility controls
+- 💸 **Money Transfer** with real-time validation
+- 📊 **Transaction History** with detailed views
+- 👤 **Profile Management** with logout functionality
+- 🎨 **Modern UI/UX** with Material Design 3
+
+### **Project Structure**
+```
+lib/
+├── core/                    # Shared infrastructure
+│   ├── base/               # Base classes and interfaces
+│   ├── di/                 # Dependency injection
+│   ├── extensions/         # Dart extensions
+│   ├── l10n/              # Internationalization
+│   ├── mixins/            # Reusable mixins
+│   ├── router/            # Navigation configuration
+│   ├── shared/            # Shared components
+│   ├── theme/             # App theming
+│   └── utils/             # Utilities
+├── features/              # Feature modules
+│   ├── login/             # Authentication
+│   ├── wallet/            # Wallet management
+│   ├── transaction/       # Transaction handling
+│   ├── send_money/        # Money transfer
+│   └── profile/           # User profile
+└── app.dart              # Main application
+```
 
 ---
 
 ## 🏗️ Architecture
 
-### Overall Architecture Pattern
-The app follows **Clean Architecture** principles with clear separation of concerns:
+### **Feature-based Pattern**
+Each feature follows the same architectural pattern:
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│  Presentation   │    │     Domain      │    │      Data       │
-│     Layer       │ ──▶│     Layer       │ ──▶│     Layer       │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-│                 │    │                 │    │                 │
-│ • Pages         │    │ • Entities      │    │ • Repositories  │
-│ • Widgets       │    │ • Use Cases     │    │ • Data Sources  │
-│ • BLoCs         │    │ • Repositories  │    │ • Models        │
-│ • States/Events │    │   (Interfaces)  │    │ • APIs          │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
+feature/
+├── data/
+│   ├── datasources/     # API and local data sources
+│   ├── models/          # Data models with JSON serialization
+│   └── repositories/    # Repository implementations
+├── domain/
+│   ├── entities/        # Business objects
+│   ├── repositories/    # Repository interfaces
+│   └── usecases/        # Business logic
+└── presentation/
+    ├── bloc/            # State management
+    ├── pages/           # UI screens
+    └── widgets/         # Feature-specific widgets
 ```
-
-### Layer Responsibilities
-
-#### 🎨 **Presentation Layer**
-- **Pages**: Screen-level widgets and navigation
-- **Widgets**: Reusable UI components
-- **BLoCs**: Business logic and state management
-- **States/Events**: State definitions and user interactions
-
-#### 🎯 **Domain Layer**
-- **Entities**: Core business models
-- **Use Cases**: Business logic implementation
-- **Repository Interfaces**: Data access contracts
-
-#### 💾 **Data Layer**
-- **Repositories**: Data access implementation
-- **Data Sources**: External API and local storage
-- **Models**: Data transfer objects
 
 ---
 
-## 🔄 Design Patterns
+## 📊 Class Diagrams
 
-### 1. **BLoC Pattern (Business Logic Component)**
-```dart
-// Event-driven state management
-class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
-  BalanceBloc() : super(BalanceInitial()) {
-    on<BalanceInitializeEvent>(_onInitialize);
-    on<BalanceDeductEvent>(_onDeduct);
-    on<BalanceAddEvent>(_onAdd);
-  }
-}
+### **1. Authentication Module**
+
+```mermaid
+classDiagram
+    class User {
+        +int id
+        +String username
+        +String password
+        +Details details
+    }
+    
+    class Details {
+        +String firstname
+        +String lastname
+        +double balance
+        +String mobile
+        +String fullName
+    }
+    
+    class AuthBloc {
+        +AuthLoginUsecase loginUsecase
+        +AuthLogoutUsecase logoutUsecase
+        +AuthSaveUserUsecase saveUserUsecase
+        +AuthGetUserUsecase getUserUsecase
+        +executeLogin()
+        +executeLogout()
+        +checkSession()
+    }
+    
+    class AuthRepository {
+        <<interface>>
+        +login(username, password) User
+        +logout() void
+        +getUser() User
+        +saveUser(user) void
+    }
+    
+    class AuthRepositoryImpl {
+        +AuthDataSource dataSource
+        +login(username, password) User
+        +logout() void
+        +getUser() User
+        +saveUser(user) void
+    }
+    
+    class AuthDataSource {
+        <<interface>>
+        +login(username, password) UserModel
+        +logout() void
+        +getUser() UserModel
+        +saveUser(user) void
+    }
+    
+    class AuthDataSourceImpl {
+        +SharedPreferences prefs
+        +login(username, password) UserModel
+        +logout() void
+        +getUser() UserModel
+        +saveUser(user) void
+    }
+    
+    User ||--|| Details
+    AuthBloc --> AuthRepository
+    AuthRepositoryImpl ..|> AuthRepository
+    AuthRepositoryImpl --> AuthDataSource
+    AuthDataSourceImpl ..|> AuthDataSource
 ```
 
-**Benefits:**
-- ✅ Predictable state changes
-- ✅ Testable business logic
-- ✅ Reactive UI updates
-- ✅ Clear separation of concerns
+### **2. Transaction Module**
 
-### 2. **Repository Pattern**
-```dart
-abstract class AuthRepository {
-  Future<bool> login(String username, String password);
-  Future<void> logout();
-  Future<bool> isLoggedIn();
-}
+```mermaid
+classDiagram
+    class Transaction {
+        +int id
+        +String transactionId
+        +String sender
+        +String recipient
+        +double amount
+        +DateTime timestamp
+    }
+    
+    class TransactionBloc {
+        +TransactionCreateTransactionUsecase createTransactionUsecase
+        +sendMoney(transaction)
+        +reset()
+    }
+    
+    class TransactionRepository {
+        <<interface>>
+        +createTransaction(transaction) Transaction
+    }
+    
+    class TransactionRepositoryImpl {
+        +TransactionDataSource dataSource
+        +createTransaction(transaction) Transaction
+    }
+    
+    class TransactionDataSource {
+        <<interface>>
+        +createTransaction(transaction) TransactionModel
+    }
+    
+    class TransactionDataSourceImpl {
+        +Dio apiClient
+        +createTransaction(transaction) TransactionModel
+    }
+    
+    class TransactionModel {
+        +int id
+        +String transactionId
+        +String sender
+        +String recipient
+        +double amount
+        +DateTime timestamp
+        +toJson() Map
+        +fromJson(json) TransactionModel
+        +toEntity() Transaction
+    }
+    
+    TransactionBloc --> TransactionRepository
+    TransactionRepositoryImpl ..|> TransactionRepository
+    TransactionRepositoryImpl --> TransactionDataSource
+    TransactionDataSourceImpl ..|> TransactionDataSource
+    TransactionModel --> Transaction
 ```
 
-**Benefits:**
-- ✅ Data source abstraction
-- ✅ Easy testing with mocks
-- ✅ Flexible data source switching
-- ✅ Clean dependency injection
+### **3. Wallet Module**
 
-### 3. **Dependency Injection**
-```dart
-class SendMoneyDI {
-  static SendMoneyBloc createBloc() {
-    return SendMoneyBloc(
-      SendTransactionUseCase(),
-    );
-  }
-}
+```mermaid
+classDiagram
+    class WalletBloc {
+        +setVisibility(visibility)
+    }
+    
+    class WalletPage {
+        +build(context) Widget
+    }
+    
+    class WalletCardWidget {
+        +User user
+        +build(context) Widget
+    }
+    
+    class WalletActionsWidget {
+        +build(context) Widget
+    }
+    
+    class GreetingsWidget {
+        +User user
+        +build(context) Widget
+    }
+    
+    WalletPage --> WalletCardWidget
+    WalletPage --> WalletActionsWidget
+    WalletPage --> GreetingsWidget
+    WalletCardWidget --> WalletBloc
 ```
 
-**Benefits:**
-- ✅ Loose coupling
-- ✅ Easy testing
-- ✅ Configuration flexibility
-- ✅ Better maintainability
+### **4. Core Infrastructure**
+
+```mermaid
+classDiagram
+    class MultiStateMixin {
+        <<mixin>>
+        +List~BaseState~ _states
+        +holdState(instantiate)
+        +states~T~() T?
+        +onChange(change)
+    }
+    
+    class ShellBloc {
+        +setLoading(loading)
+        +setError(message)
+    }
+    
+    class AppRouter {
+        +GoRouter appRouter
+        +RouterNotifier routerNotifier
+        +redirect(context, state)
+    }
+    
+    class RouterNotifier {
+        +AuthBloc _authBloc
+        +bool isAuthenticated
+    }
+    
+    class GetIt {
+        +registerSingleton~T~(instance)
+        +registerLazySingleton~T~(factory)
+        +get~T~() T
+    }
+    
+    MultiStateMixin <|.. AuthBloc
+    MultiStateMixin <|.. TransactionBloc
+    MultiStateMixin <|.. WalletBloc
+    MultiStateMixin <|.. ShellBloc
+    
+    AppRouter --> RouterNotifier
+    RouterNotifier --> AuthBloc
+```
+
+---
+
+## 🔄 Sequence Diagrams
+
+### **1. User Login Flow**
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant LP as LoginPage
+    participant LB as LoginBloc
+    participant AU as AuthUsecase
+    participant AR as AuthRepository
+    participant AD as AuthDataSource
+    participant SP as SharedPreferences
+    participant R as Router
+    
+    U->>LP: Enter credentials
+    LP->>LB: LoginSubmitEvent
+    LB->>AU: execute(LoginParams)
+    AU->>AR: login(username, password)
+    AR->>AD: login(username, password)
+    AD->>SP: getString('user')
+    SP-->>AD: Stored user data
+    AD-->>AR: UserModel
+    AR-->>AU: User entity
+    AU-->>LB: User entity
+    LB->>LB: emit(AuthVerifiedUser)
+    LB-->>LP: AuthVerifiedUser state
+    LP->>R: Navigate to wallet
+    R->>R: Update navigation
+```
+
+### **2. Send Money Transaction Flow**
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant SM as SendMoneyPage
+    participant TB as TransactionBloc
+    participant TU as TransactionUsecase
+    participant TR as TransactionRepository
+    participant TD as TransactionDataSource
+    participant API as External API
+    participant AB as AuthBloc
+    participant SB as ShellBloc
+    
+    U->>SM: Fill form & submit
+    SM->>TB: TransactionSendMoney event
+    TB->>SB: ShellSetLoading(true)
+    TB->>TU: execute(transaction)
+    TU->>TR: createTransaction(transaction)
+    TR->>TD: createTransaction(transactionModel)
+    TD->>API: POST /transactions
+    API-->>TD: Transaction response
+    TD-->>TR: TransactionModel
+    TR-->>TU: Transaction entity
+    TU-->>TB: Transaction entity
+    TB->>AB: Update user balance
+    TB->>TB: emit(TransactionList)
+    TB->>SB: ShellSetLoading(false)
+    TB-->>SM: Success state
+    SM->>SM: Show success dialog
+```
+
+### **3. Wallet Balance Visibility Toggle**
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant WC as WalletCardWidget
+    participant WB as WalletBloc
+    participant UI as UI Components
+    
+    U->>WC: Tap visibility icon
+    WC->>WB: WalletSetVisibility event
+    WB->>WB: emit(WalletVisibility)
+    WB-->>WC: New visibility state
+    WC->>UI: Rebuild with new state
+    UI-->>U: Updated balance display
+```
+
+### **4. App Startup & Session Check**
+
+```mermaid
+sequenceDiagram
+    participant A as App
+    participant AB as AuthBloc
+    participant AU as AuthUsecase
+    participant AR as AuthRepository
+    participant AD as AuthDataSource
+    participant R as Router
+    participant WP as WalletPage
+    participant LP as LoginPage
+    
+    A->>AB: Initialize AuthBloc
+    AB->>AB: AuthCheckSession event
+    AB->>AU: execute(NoParams)
+    AU->>AR: getUser()
+    AR->>AD: getUser()
+    AD->>AD: Check SharedPreferences
+    
+    alt User exists
+        AD-->>AR: UserModel
+        AR-->>AU: User entity
+        AU-->>AB: User entity
+        AB->>AB: emit(AuthVerifiedUser)
+        AB-->>R: User authenticated
+        R->>WP: Navigate to wallet
+    else No user found
+        AD-->>AR: Exception
+        AR-->>AU: Exception
+        AU-->>AB: Exception
+        AB->>AB: Stay in initial state
+        AB-->>R: Not authenticated
+        R->>LP: Navigate to login
+    end
+```
+
+### **5. Logout Flow**
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant PP as ProfilePage
+    participant AB as AuthBloc
+    participant AU as AuthUsecase
+    participant AR as AuthRepository
+    participant AD as AuthDataSource
+    participant TB as TransactionBloc
+    participant SB as ShellBloc
+    participant R as Router
+    participant LP as LoginPage
+    
+    U->>PP: Tap logout button
+    PP->>PP: Show confirmation dialog
+    U->>PP: Confirm logout
+    PP->>AB: AuthExecuteLogout event
+    AB->>SB: ShellSetLoading(true)
+    AB->>AU: execute(NoParams)
+    AU->>AR: logout()
+    AR->>AD: logout()
+    AD->>AD: Clear SharedPreferences
+    AD-->>AR: Success
+    AR-->>AU: Success
+    AU-->>AB: Success
+    AB->>AB: emit(AuthVerifiedUser(null))
+    AB->>TB: TransactionReset event
+    AB->>SB: ShellSetLoading(false)
+    AB-->>R: User logged out
+    R->>LP: Navigate to login
+```
 
 ---
 
 ## 🧠 State Management
 
-### Core State Management Architecture
+### **BLoC Pattern Architecture**
 
-#### **1. LoginBloc - Authentication State**
+The app uses the **BLoC (Business Logic Component)** pattern with a custom **MultiStateMixin** for advanced state management.
+
+#### **Core BLoCs**
+
 ```dart
-// States
-- LoginInitialState
-- LoginLoadingState  
-- LoginAuthenticatedState
-- LoginUnauthenticatedState
-- LoginErrorState
+// 1. AuthBloc - Authentication & User Management
+sealed class AuthState extends Equatable {}
+class AuthInitial extends AuthState {}
+class AuthLoading extends AuthState {
+  final bool loading;
+}
+class AuthVerifiedUser extends AuthState {
+  final User? user;
+}
+class AuthError extends AuthState {
+  final String message;
+}
 
-// Events
-- LoginInitializeEvent
-- LoginSubmitEvent
-- LoginLogoutEvent
-- LoginCheckAuthEvent
+// 2. TransactionBloc - Transaction Management
+sealed class TransactionState extends Equatable {}
+class TransactionInitial extends TransactionState {}
+class TransactionList extends TransactionState {
+  final List<Transaction> transactions;
+}
+class TransactionError extends TransactionState {
+  final String message;
+}
+
+// 3. WalletBloc - Wallet UI State
+sealed class WalletState extends Equatable {}
+class WalletInitial extends WalletState {}
+class WalletVisibility extends WalletState {
+  final bool visibility;
+}
+
+// 4. ShellBloc - Global App State
+sealed class ShellState extends Equatable {}
+class ShellInitial extends ShellState {}
+class ShellLoading extends ShellState {
+  final bool loading;
+}
+class ShellError extends ShellState {
+  final String message;
+}
 ```
 
-#### **2. BalanceBloc - Financial State**
+#### **MultiStateMixin Pattern**
+
 ```dart
-// States
-- BalanceInitial
-- BalanceLoading
-- BalanceLoaded
-- BalanceUpdated
-- BalanceDeducted
-- BalanceAdded
-- BalanceError
-- BalanceInsufficientFunds
-
-// Events
-- BalanceInitializeEvent
-- BalanceUpdateEvent
-- BalanceDeductEvent
-- BalanceAddEvent
-- BalanceResetEvent
-```
-
-#### **3. SendMoneyBloc - Transaction State**
-```dart
-// States
-- SendMoneyInitial
-- SendMoneyTransactionList
-- SendMoneyStatus
-- SendMoneyFormCleared
-
-// Events
-- SendMoneyExecuteTransaction
-- SendMoneyResetStatus
-- SendMoneyClearForm
-```
-
-### **MultiStateMixin Pattern**
-```dart
-class BalanceBloc extends Bloc<BalanceEvent, BalanceState>
-    with MultiStateMixin<BalanceEvent, BalanceState> {
+mixin MultiStateMixin<BaseEvent, BaseState> on Bloc<BaseEvent, BaseState> {
+  final List<BaseState> _states = [];
   
   // Hold multiple states simultaneously
-  holdState(() => const BalanceLoaded(balance: 0));
-  holdState(() => const BalanceUpdated(balance: 0, previousBalance: 0));
+  void holdState(BaseState Function() instantiate) {
+    final instance = instantiate.call();
+    final reference = _findStateInstance(instance);
+    
+    if (reference != null) {
+      final index = _states.indexOf(reference);
+      _states[index] = instance;
+    } else {
+      _states.add(instance);
+    }
+  }
+  
+  // Retrieve specific state type
+  ConcreteState? states<ConcreteState extends BaseState>() =>
+      _findStateByType<ConcreteState>();
 }
 ```
 
 **Benefits:**
 - ✅ Multiple concurrent states
-- ✅ State persistence
-- ✅ Easy state access
-- ✅ Complex state scenarios
-
----
-
-## 📁 Module Structure
-
-### Feature-Based Organization
-```
-lib/
-├── core/                           # Shared utilities and configurations
-│   ├── config/                     # App configuration
-│   ├── constants/                  # App constants
-│   ├── errors/                     # Error handling
-│   ├── extensions/                 # Dart extensions
-│   ├── l10n/                      # Internationalization
-│   ├── mixins/                    # Reusable mixins
-│   ├── navigation/                # Navigation configuration
-│   ├── services/                  # Core services
-│   ├── shared/
-│   │   ├── bloc/                  # Shared BLoCs (BalanceBloc)
-│   │   └── widgets/               # Reusable widgets
-│   ├── theme/                     # App theming
-│   └── utils/                     # Utility functions
-├── features/                      # Feature modules
-│   ├── login/                     # Authentication feature
-│   │   ├── data/
-│   │   ├── domain/
-│   │   └── presentation/
-│   │       ├── bloc/
-│   │       ├── pages/
-│   │       └── widgets/
-│   ├── wallet/                    # Wallet management feature
-│   │   └── presentation/
-│   │       ├── bloc/
-│   │       ├── pages/
-│   │       └── widgets/
-│   ├── send_money/               # Money transfer feature
-│   │   ├── data/
-│   │   ├── domain/
-│   │   └── presentation/
-│   └── profile/                  # User profile feature
-└── main_*.dart                   # Environment entry points
-```
-
-### **Feature Module Structure**
-Each feature follows the same pattern:
-```
-feature_name/
-├── data/                         # Data layer
-│   ├── datasources/             # API and local data sources
-│   ├── models/                  # Data models
-│   └── repositories/            # Repository implementations
-├── domain/                      # Domain layer  
-│   ├── entities/                # Business entities
-│   ├── repositories/            # Repository interfaces
-│   └── usecases/               # Business use cases
-└── presentation/               # Presentation layer
-    ├── bloc/                   # State management
-    ├── pages/                  # Screen widgets
-    └── widgets/                # Feature-specific widgets
-```
-
----
-
-## ✨ Key Features
-
-### 1. **Balance Management System**
-- 💰 **Real-time Balance Tracking**
-  - Live updates across all screens
-  - Automatic balance deduction on transactions
-  - Balance validation for transfers
-
-- 🔄 **State Persistence**
-  - Balance state maintained across navigation
-  - Automatic initialization on app start
-  - Fallback to default values
-
-### 2. **Transaction Management**
-- 📱 **Send Money Flow**
-  - Form validation with balance checking
-  - Real-time balance display
-  - Transaction confirmation
-  - Automatic form clearing on success
-
-- 📊 **Transaction History**
-  - Transaction list management
-  - Success/failure tracking
-  - User feedback system
-
-### 3. **Authentication System**
-- 🔐 **Secure Login**
-  - Credential validation
-  - Session management
-  - Automatic authentication checking
-
-- 👤 **User Management**
-  - Default user data
-  - Profile information
-  - Card number generation
-
-### 4. **UI/UX Features**
-- 🎨 **Responsive Design**
-  - Adaptive layouts
-  - Dark/light theme support
-  - Cross-platform compatibility
-
-- 📱 **Modern Interface**
-  - Material Design 3
-  - Smooth animations
-  - Intuitive navigation
+- ✅ State persistence across events
+- ✅ Easy cross-BLoC communication
+- ✅ Complex state scenarios support
 
 ---
 
 ## 🔄 Data Flow
 
-### Balance Update Flow
-```mermaid
-graph TD
-    A[User Sends Money] --> B[SendMoneyBloc]
-    B --> C[Form Validation]
-    C --> D[Balance Check]
-    D --> E[Execute Transaction]
-    E --> F[Update BalanceBloc]
-    F --> G[WalletCardWidget Rebuilds]
-    G --> H[UI Updates Instantly]
-```
+### **1. State Synchronization**
 
-### State Synchronization
 ```mermaid
 graph LR
-    A[BalanceBloc] --> B[WalletCardWidget]
-    A --> C[SendMoneyPage]
-    A --> D[Other Components]
+    subgraph "BLoC Layer"
+        AB[AuthBloc]
+        TB[TransactionBloc]
+        WB[WalletBloc]
+        SB[ShellBloc]
+    end
     
-    E[Transaction] --> F[BalanceDeductEvent]
-    F --> A
-    A --> G[BalanceDeducted State]
-    G --> B
-    G --> C
-    G --> D
+    subgraph "UI Layer"
+        WP[WalletPage]
+        TP[TransactionPage]
+        PP[ProfilePage]
+        SM[SendMoneyPage]
+        WC[WalletCard]
+    end
+    
+    AB -.-> WP
+    AB -.-> PP
+    AB -.-> SM
+    TB -.-> TP
+    TB -.-> SM
+    WB -.-> WC
+    SB -.-> WP
+    SB -.-> TP
+    SB -.-> SM
+    
+    SM --> TB
+    PP --> AB
+    WC --> WB
 ```
 
-### Component Communication
-```dart
-// 1. Transaction triggered
-sendMoneyBloc.add(SendMoneyExecuteTransaction(transaction));
+### **2. Transaction Data Flow**
 
-// 2. On success, update balance
-balanceBloc.add(BalanceDeductEvent(amount: transaction.amount));
+```mermaid
+graph TD
+    A[User Initiates Transaction] --> B[Form Validation]
+    B --> C[SendMoneyBloc Event]
+    C --> D[TransactionBloc Event]
+    D --> E[Use Case Execution]
+    E --> F[Repository Call]
+    F --> G[Data Source API Call]
+    G --> H[Update Local State]
+    H --> I[Update AuthBloc Balance]
+    I --> J[UI Rebuilds]
+    J --> K[Show Success Dialog]
+```
 
-// 3. WalletCardWidget automatically rebuilds
-BlocBuilder<BalanceBloc, BalanceState>(
-  builder: (context, state) {
-    return WalletCard(balance: balanceBloc.currentBalance);
-  },
-)
+### **3. Authentication Flow**
+
+```mermaid
+graph TD
+    A[App Startup] --> B[AuthBloc Initialize]
+    B --> C[Check Session]
+    C --> D{User Exists?}
+    D -->|Yes| E[Load User Data]
+    D -->|No| F[Show Login]
+    E --> G[Navigate to Wallet]
+    F --> H[User Login]
+    H --> I[Validate Credentials]
+    I --> J{Valid?}
+    J -->|Yes| K[Save Session]
+    J -->|No| L[Show Error]
+    K --> E
+    L --> F
 ```
 
 ---
 
-## 🎨 UI/UX Design
+## 💻 Technology Stack
 
-### Design System
-- **Color Scheme**: Primary, secondary, surface colors with proper contrast
-- **Typography**: Consistent text styles and hierarchies
-- **Spacing**: 8px grid system for consistent layouts
-- **Components**: Reusable widgets following Material Design
+### **Frontend Framework**
+- **Flutter 3.32+** - Cross-platform UI framework
+- **Dart 3.8+** - Programming language
 
-### Key UI Components
+### **State Management**
+- **flutter_bloc 9.1.1** - BLoC pattern implementation
+- **bloc_concurrency 0.3.0** - Event handling optimization
+- **equatable 2.0.7** - Value equality comparisons
 
-#### **1. WalletCardWidget**
-```dart
-// Self-contained balance management
-BlocBuilder<BalanceBloc, BalanceState>(
-  builder: (context, state) {
-    return WalletCard(
-      balance: balanceBloc.currentBalance,
-      visibility: toggleable,
-    );
-  },
-)
-```
+### **Navigation**
+- **go_router 16.0.0** - Declarative routing
+- **Authentication guards** - Route protection
 
-#### **2. Transaction Forms**
-- Real-time validation
-- Balance limit display
-- Error handling
-- Success feedback
+### **Dependency Injection**
+- **get_it 8.2.0** - Service locator pattern
+- **Lazy singletons** - Memory optimization
 
-#### **3. Navigation System**
-- Bottom navigation
-- Stateful shell routes
-- Deep linking support
+### **UI/UX**
+- **Material Design 3** - Design system
+- **google_fonts 6.3.0** - Typography
+- **Custom theming** - Brand consistency
 
-### Responsive Design
-- **Mobile**: Optimized for touch interactions
-- **Tablet**: Adaptive layouts with better space utilization
-- **Desktop**: Mouse and keyboard support
-- **Web**: Progressive web app capabilities
+### **Data Persistence**
+- **shared_preferences 2.5.3** - Local key-value storage
+- **Future: SQLite** - Structured data storage
+
+### **HTTP Client**
+- **dio 5.8.0+1** - HTTP client with interceptors
+- **Custom error handling** - Network resilience
+
+### **Form Handling**
+- **flutter_form_builder 10.1.0** - Form management
+- **form_builder_validators 11.2.0** - Input validation
+
+### **Internationalization**
+- **flutter_localizations** - Multi-language support
+- **intl 0.20.2** - Date/number formatting
+
+### **Development Tools**
+- **very_good_analysis 9.0.0** - Code quality
+- **bloc_test 10.0.0** - BLoC testing
+- **mocktail 1.0.4** - Mocking framework
 
 ---
 
-## 🔒 Security Considerations
+## 🔒 Security
 
-### Authentication Security
-- ✅ **Credential Validation**: Server-side validation
-- ✅ **Session Management**: Secure token handling
-- ✅ **Auto-logout**: Session timeout implementation
+### **Authentication Security**
+- ✅ **Credential Validation**: Local validation against default user
+- ✅ **Session Management**: Secure token storage
+- ✅ **Auto-logout**: Automatic session cleanup
+- ✅ **Route Guards**: Authentication-based navigation
 
-### Data Security
-- ✅ **Balance Protection**: Server-side balance validation
+### **Data Security**
+- ✅ **Balance Protection**: Server-side validation (future)
 - ✅ **Transaction Verification**: Double-checking mechanisms
-- ✅ **Input Sanitization**: XSS and injection prevention
+- ✅ **Input Sanitization**: Form validation and sanitization
+- ✅ **Secure Storage**: Encrypted local storage (future)
 
-### UI Security
+### **UI Security**
 - ✅ **Balance Visibility Toggle**: Privacy protection
 - ✅ **Secure Navigation**: Authentication guards
 - ✅ **Error Handling**: No sensitive data in error messages
+- ✅ **Loading States**: User feedback and security
+
+### **Network Security** (Future)
+- 🔄 **Certificate Pinning**: Man-in-the-middle protection
+- 🔄 **Request Signing**: API request authentication
+- 🔄 **Rate Limiting**: DDoS protection
+- 🔄 **HTTPS Only**: Encrypted communication
 
 ---
 
-## 🧪 Testing Strategy
+## 📈 Future Enhancements
 
-### Testing Pyramid
-```
-┌─────────────────┐
-│  Integration    │ ← E2E Testing
-│     Tests       │
-├─────────────────┤
-│   Widget Tests  │ ← UI Component Testing
-├─────────────────┤
-│   Unit Tests    │ ← Business Logic Testing
-└─────────────────┘
-```
+### **Technical Improvements**
+- 🔄 **Real API Integration** with backend services
+- 🔄 **Offline Support** with local caching
+- 🔄 **Push Notifications** for transaction updates
+- 🔄 **Biometric Authentication** for enhanced security
 
-### TODO: Test Coverage Areas
+### **Feature Expansions**
+- 🔄 **Multi-currency Support** 
+- 🔄 **Transaction Categories**
+- 🔄 **Spending Analytics**
+- 🔄 **QR Code Payments**
 
-#### **1. Unit Tests**
-- BLoC logic testing
-- Use case testing
-- Utility function testing
-- Extension method testing
-
-#### **2. Widget Tests**
-- Component rendering
-- User interaction testing
-- State-driven UI changes
-- Navigation testing
-
-#### **3. Integration Tests**
-- Feature flow testing
-- Cross-component communication
-- Data persistence testing
-- Authentication flows
-
-### Testing Tools
-- **flutter_test**: Core testing framework
-- **bloc_test**: BLoC-specific testing
-- **mocktail**: Mocking dependencies
+### **Performance Optimizations**
+- 🔄 **Code Splitting** for faster load times
+- 🔄 **Image Optimization** and caching
+- 🔄 **Bundle Size Reduction**
+- 🔄 **Memory Management** improvements
 
 ---
 
-## 🚀 Future Enhancements
-
-### Planned Features
-- 📊 **Analytics Dashboard**: Transaction insights and spending patterns
-- 🔔 **Push Notifications**: Transaction alerts and security notifications
-- 💳 **Multi-card Support**: Multiple payment methods
-- 🌍 **Multi-currency**: International transaction support
-- 🤖 **AI Insights**: Spending recommendations and budgeting
-
-### Technical Improvements
-- 🔄 **Offline Support**: Local transaction caching
-- ⚡ **Performance Optimization**: Image caching and lazy loading
-- 🔐 **Enhanced Security**: Biometric authentication
-- 📱 **Accessibility**: Screen reader and keyboard navigation support
-
----
-
-## 📖 Conclusion
-
-Payora's architecture emphasizes:
-- **Maintainability** through clean architecture
-- **Scalability** through modular design
-- **Testability** through dependency injection
-- **Performance** through efficient state management
-- **User Experience** through responsive design
-
-The combination of Flutter's cross-platform capabilities and BLoC's predictable state management creates a robust foundation for a modern financial application.
-
----
-
-*This documentation serves as a living guide for the Payora development team and will be updated as the application evolves.*
+*This design documentation reflects the current state of the Payora application and serves as a blueprint for future development and maintenance.*

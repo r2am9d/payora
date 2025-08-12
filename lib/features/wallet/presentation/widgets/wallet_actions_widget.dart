@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:payora/core/extensions/index.dart';
 import 'package:payora/core/l10n/l10n.dart';
-import 'package:payora/core/shared/widgets/bottom_navbar/index.dart';
-import 'package:payora/core/shared/widgets/custom_icon_button/index.dart';
+import 'package:payora/core/shared/index.dart';
 
 class WalletActionsWidget extends StatelessWidget {
   const WalletActionsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final bnBloc = context.read<BottomNavbarBloc>();
-
     return Row(
       spacing: 16,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -26,7 +22,6 @@ class WalletActionsWidget extends StatelessWidget {
           label: context.l10n.walletActionsItemSendMoney,
           onPressed: () {
             context.go('/wallet/send-money');
-            bnBloc.add(const BottomNavbarSetIndex(index: 0));
           },
         ),
         CustomIconButton(
@@ -35,10 +30,9 @@ class WalletActionsWidget extends StatelessWidget {
             size: 20,
             color: context.appColors.primary,
           ),
-          label: context.l10n.walletActionsItemViewTransactions,
+          label: context.l10n.walletActionsItemViewTransaction,
           onPressed: () {
-            context.go('/transactions');
-            bnBloc.add(const BottomNavbarSetIndex(index: 1));
+            context.go('/transaction');
           },
         ),
       ],

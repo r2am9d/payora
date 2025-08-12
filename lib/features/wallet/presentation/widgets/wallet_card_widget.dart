@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:payora/core/extensions/index.dart';
 import 'package:payora/core/l10n/l10n.dart';
-import 'package:payora/core/shared/bloc/index.dart';
-import 'package:payora/features/wallet/presentation/bloc/bloc/wallet_bloc.dart';
+import 'package:payora/core/shared/index.dart';
+import 'package:payora/features/wallet/presentation/bloc/wallet_bloc.dart';
 
 class WalletCardWidget extends StatelessWidget {
   const WalletCardWidget({
@@ -17,6 +17,7 @@ class WalletCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authBloc = context.read<AuthBloc>();
     final walletBloc = context.read<WalletBloc>();
 
     return ClipRRect(
@@ -37,7 +38,7 @@ class WalletCardWidget extends StatelessWidget {
           ),
           Container(
             width: context.appSize.width,
-            height: context.appSize.height * 0.27,
+            height: context.appSize.height * 0.28,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               border: Border.all(color: context.appColors.secondary),
@@ -54,75 +55,77 @@ class WalletCardWidget extends StatelessWidget {
                 ),
                 Text(
                   '$cardNumber',
-                  style: context.appTextTheme.bodySmall?.copyWith(
+                  style: context.appTextTheme.bodyMedium?.copyWith(
                     color: context.appColors.surface.withValues(alpha: 0.75),
                   ),
                 ),
                 const SizedBox(height: 50),
                 Text(
                   '${context.l10n.walletCardSubtitile}:',
-                  style: context.appTextTheme.bodySmall?.copyWith(
+                  style: context.appTextTheme.bodyMedium?.copyWith(
                     color: context.appColors.surface.withValues(alpha: 0.75),
                   ),
                 ),
-                BlocBuilder<WalletBloc, WalletState>(
+                BlocBuilder<AuthBloc, AuthState>(
                   buildWhen: (previous, current) =>
-                      previous is WalletVisibility ||
-                      current is WalletVisibility,
-                  builder: (context, state) {
-                    final walletVisibility =
-                        walletBloc.states<WalletVisibility>()!;
+                      previous is AuthVerifiedUser ||
+                      current is AuthVerifiedUser,
+                  builder: (abCtx, abState) {
+                    return BlocBuilder<WalletBloc, WalletState>(
+                      buildWhen: (previous, current) =>
+                          previous is WalletVisibility ||
+                          current is WalletVisibility,
+                      builder: (walCtx, walState) {
+                        final aVerifiedUser = authBloc
+                            .states<AuthVerifiedUser>();
+                        final wVisibility = walletBloc
+                            .states<WalletVisibility>()!;
 
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        BlocBuilder<BalanceBloc, BalanceState>(
-                          builder: (context, balanceState) {
-                            final balanceBloc = context.read<BalanceBloc>();
+                        final balance = aVerifiedUser?.user?.details.balance;
 
-                            final currentBalance =
-                                balanceBloc.states<BalanceCurrent>()!;
-
-                            return RichText(
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            RichText(
                               text: TextSpan(
                                 text: '₱ ',
-                                style: context.appTextTheme.headlineLarge
+                                style: context.appTextTheme.headlineMedium
                                     ?.copyWith(
-                                  fontWeight: FontWeight.normal,
-                                  color: context.appColors.surface,
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: walletVisibility.visibility
-                                        ? currentBalance.balance.withComma
-                                        : '* * * * * * * *',
-                                    style: context.appTextTheme.headlineLarge
-                                        ?.copyWith(
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.normal,
                                       color: context.appColors.surface,
                                     ),
+                                children: [
+                                  TextSpan(
+                                    text: wVisibility.visibility
+                                        ? balance?.withComma
+                                        : '* * * * * * * *',
+                                    style: context.appTextTheme.headlineMedium
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: context.appColors.surface,
+                                        ),
                                   ),
                                 ],
                               ),
-                            );
-                          },
-                        ),
-                        IconButton(
-                          icon: walletVisibility.visibility
-                              ? const Icon(Icons.visibility)
-                              : const Icon(Icons.visibility_off),
-                          tooltip: walletVisibility.visibility
-                              ? 'Hide balance'
-                              : 'Show balance',
-                          onPressed: () {
-                            walletBloc.add(
-                              WalletSetVisibility(
-                                visibility: !walletVisibility.visibility,
-                              ),
-                            );
-                          },
-                        ),
-                      ],
+                            ),
+                            IconButton(
+                              icon: wVisibility.visibility
+                                  ? const Icon(Icons.visibility)
+                                  : const Icon(Icons.visibility_off),
+                              tooltip: wVisibility.visibility
+                                  ? 'Hide balance'
+                                  : 'Show balance',
+                              onPressed: () {
+                                walletBloc.add(
+                                  WalletSetVisibility(
+                                    visibility: !wVisibility.visibility,
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      },
                     );
                   },
                 ),

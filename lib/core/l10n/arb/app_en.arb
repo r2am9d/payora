@@ -1,17 +1,16 @@
 {
     "@@locale": "en",
-    
     "appName": "Payora",
 
     "bottomNavbarItemWallet": "Wallet",
-    "bottomNavbarItemTransactions": "Transactions",
+    "bottomNavbarItemTransaction": "Transaction",
     "bottomNavbarItemProfile": "Profile",
-    
+
     "walletGreetingsTitle": "Hello",
     "walletGreetingsSubtitle": "Today is a great day!",
 
     "walletCardSubtitile": "Balance",
     
     "walletActionsItemSendMoney": "Send Money",
-    "walletActionsItemViewTransactions": "View Transactions"
+    "walletActionsItemViewTransaction": "View Transaction"
 }

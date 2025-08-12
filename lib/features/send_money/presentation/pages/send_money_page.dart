@@ -1,71 +1,59 @@
-// ignore_for_file: use_if_null_to_convert_nulls_to_bools, document_ignores
+import 'dart:math';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:intl/intl.dart';
+import 'package:payora/core/di/injection.dart';
 import 'package:payora/core/extensions/index.dart';
+import 'package:payora/core/keys/app_key.dart';
 import 'package:payora/core/l10n/l10n.dart';
-import 'package:payora/core/shared/bloc/index.dart';
-import 'package:payora/core/shared/widgets/appbar/index.dart';
-import 'package:payora/features/send_money/domain/entities/transaction.dart';
-import 'package:payora/features/send_money/presentation/bloc/send_money_bloc.dart';
-import 'package:payora/features/send_money/presentation/widgets/transaction_result_bottom_sheet.dart';
+import 'package:payora/core/shared/index.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:payora/features/transaction/index.dart';
+import 'package:uuid/uuid.dart';
 
 class SendMoneyPage extends StatelessWidget {
   const SendMoneyPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormBuilderState>();
-    final smBloc = context.read<SendMoneyBloc>();
-    final balanceBloc = context.read<BalanceBloc>();
+    final authBloc = context.read<AuthBloc>();
+    final transactionBloc = context.read<TransactionBloc>();
 
-    return BlocBuilder<BalanceBloc, BalanceState>(
-      builder: (context, balanceState) {
-        final currentBalance = balanceBloc.states<BalanceCurrent>()!;
+    return BlocListener<TransactionBloc, TransactionState>(
+      listener: (txnCtx, txnState) {
+        final txnList = transactionBloc.states<TransactionList>()!;
 
-        return BlocListener<SendMoneyBloc, SendMoneyState>(
-          listener: (context, state) {
-            // Listen for SendMoneyStatus changes
-            final statusState = smBloc.states<SendMoneyStatus>();
-            if (statusState != null && statusState.success != null) {
-              _showTransactionResultBottomSheet(
-                context,
-                statusState.success!,
-                smBloc.states<SendMoneyTransactionList>()?.transactions.first,
-                statusState.message,
-              );
+        txnList.transactions.first;
 
-              // Clear form and deduct balance on successful transaction
-              if (statusState.success == true) {
-                smBloc.add(const SendMoneyClearForm());
-              }
+        if (txnState is TransactionList) {
+          _showTransactionResult(
+            context: context,
+          );
+        }
+      },
+      child: BlocBuilder<AuthBloc, AuthState>(
+        buildWhen: (previous, current) =>
+            previous is AuthVerifiedUser || current is AuthVerifiedUser,
+        builder: (abCtx, abState) {
+          final aVerifiedUser = authBloc.states<AuthVerifiedUser>();
+          final balance = aVerifiedUser?.user?.details.balance;
 
-              // Reset status after showing the bottom sheet
-              smBloc.add(const SendMoneyResetStatus());
-            }
-
-            // Listen for form clear event
-            if (state is SendMoneyFormCleared) {
-              formKey.currentState?.reset();
-            }
-          },
-          child: Scaffold(
+          return Scaffold(
             appBar: AppbarWidget(
               title: context.l10n.walletActionsItemSendMoney,
               icon: const Icon(Icons.send),
               showIcon: false,
             ),
             body: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
               child: FormBuilder(
-                key: formKey,
+                key: AppKey.sendMoneyFormKey,
                 child: Container(
                   width: context.appSize.width,
                   padding: const EdgeInsets.all(16),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       // Balance display card
                       Container(
@@ -95,7 +83,7 @@ class SendMoneyPage extends StatelessWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              '₱ ${currentBalance.balance.withComma}',
+                              '₱ ${balance?.withComma}',
                               style: TextStyle(
                                 fontSize: 24,
                                 color: context.appColors.primary,
@@ -105,7 +93,7 @@ class SendMoneyPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 32),
                       FormBuilderTextField(
                         name: 'recipient',
                         decoration: InputDecoration(
@@ -117,6 +105,7 @@ class SendMoneyPage extends StatelessWidget {
                           ),
                         ),
                         keyboardType: TextInputType.phone,
+                        textInputAction: TextInputAction.next,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
@@ -139,14 +128,14 @@ class SendMoneyPage extends StatelessWidget {
                         decoration: InputDecoration(
                           labelText: 'Amount',
                           hintText: 'Enter amount',
-                          helperText:
-                              'Maximum: ₱ ${currentBalance.balance.withComma}',
+                          helperText: 'Maximum: ₱ ${balance?.withComma}',
                           prefixIcon: Icon(
                             Icons.money,
                             color: context.appColors.primary,
                           ),
                         ),
                         keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.next,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
@@ -158,11 +147,11 @@ class SendMoneyPage extends StatelessWidget {
                                 value.startsWith('0')) {
                               return 'Amount cannot start with 0';
                             }
+
                             // Check against current balance
                             if (value != null && value.isNotEmpty) {
                               final amount = double.tryParse(value);
-                              if (amount != null &&
-                                  amount > currentBalance.balance) {
+                              if (amount != null && amount > (balance ?? 0)) {
                                 return 'Amount exceeds available balance';
                               }
                             }
@@ -182,45 +171,40 @@ class SendMoneyPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 16),
                           ),
                           onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              // Save form state
-                              formKey.currentState!.save();
-                              final values = formKey.currentState!.value;
+                            final formState =
+                                AppKey.sendMoneyFormKey.currentState;
 
-                              // Extract values
+                            // Dismiss keyboard and remove focus from fields
+                            context.appFocusManager.primaryFocus?.unfocus();
+
+                            if (formState != null &&
+                                formState.saveAndValidate()) {
+                              final values = formState.value;
+
+                              // Set param values
+                              final id = Random().nextInt(
+                                Int32.MAX_VALUE.toInt(),
+                              );
+                              final transactionId = getIt<Uuid>().v4();
+                              final sender =
+                                  aVerifiedUser?.user?.details.mobile ?? '';
                               final recipient = values['recipient'] as String;
                               final amount = values['amount'] as String;
-                              final amountDouble = double.parse(amount);
-
-                              // // Double check balance before proceeding
-                              // if (!balanceBloc.hasSufficientFunds(
-                              //   amountDouble,
-                              // )) {
-                              //   ScaffoldMessenger.of(context).showSnackBar(
-                              //     const SnackBar(
-                              //       content: Text('Insufficient funds'),
-                              //       backgroundColor: Colors.red,
-                              //     ),
-                              //   );
-                              //   return;
-                              // }
-
-                              final time = DateFormat(
-                                'h:mm a',
-                              ).format(DateTime.now());
+                              final timestamp = DateTime.now();
 
                               // Create transaction
                               final transaction = Transaction(
+                                id: id,
+                                transactionId: transactionId,
+                                sender: sender,
                                 recipient: recipient,
-                                amount: amountDouble,
-                                time: time,
+                                amount: double.parse(amount),
+                                timestamp: timestamp,
                               );
 
-                              // Pass to bloc
-                              smBloc.add(
-                                SendMoneyExecuteTransaction(
+                              transactionBloc.add(
+                                TransactionSendMoney(
                                   transaction: transaction,
-                                  context: context,
                                 ),
                               );
                             }
@@ -233,19 +217,15 @@ class SendMoneyPage extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
-  /// Show transaction result bottom sheet
-  void _showTransactionResultBottomSheet(
-    BuildContext context,
-    bool isSuccess,
-    Transaction? transaction,
-    String? message,
-  ) {
+  void _showTransactionResult({
+    required BuildContext context,
+  }) {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -254,13 +234,7 @@ class SendMoneyPage extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => TransactionResultBottomSheet(
-        isSuccess: isSuccess,
-        transaction: transaction,
-        errorMessage: isSuccess
-            ? null
-            : (message ?? 'Transaction failed. Please try again.'),
-      ),
+      builder: (context) => const TransactionResultWidget(),
     );
   }
 }

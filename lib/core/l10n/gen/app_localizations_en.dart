@@ -18,7 +18,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bottomNavbarItemWallet => 'Wallet';
 
   @override
-  String get bottomNavbarItemTransactions => 'Transactions';
+  String get bottomNavbarItemTransaction => 'Transaction';
 
   @override
   String get bottomNavbarItemProfile => 'Profile';
@@ -36,5 +36,5 @@ class AppLocalizationsEn extends AppLocalizations {
   String get walletActionsItemSendMoney => 'Send Money';
 
   @override
-  String get walletActionsItemViewTransactions => 'View Transactions';
+  String get walletActionsItemViewTransaction => 'View Transaction';
 }

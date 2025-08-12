@@ -5,6 +5,7 @@ analyzer:
     directives_ordering: ignore
     avoid_bool_literals_in_conditional_expressions: ignore
     unused_catch_clause: ignore
+    one_member_abstracts: ignore
   exclude:
     - lib/l10n/gen/*
     - coverage/*
