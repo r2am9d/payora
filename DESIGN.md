@@ -137,7 +137,7 @@ classDiagram
         +saveUser(user) void
     }
     
-    User ||--|| Details
+    User *-- Details
     AuthBloc --> AuthRepository
     AuthRepositoryImpl ..|> AuthRepository
     AuthRepositoryImpl --> AuthDataSource
