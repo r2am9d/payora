@@ -5,20 +5,13 @@ class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
 
   @override
-  void onChange(
-    BlocBase<dynamic> bloc,
-    Change<dynamic> change,
-  ) {
-    AppLog.d('onChange(${bloc.runtimeType}, $change)');
+  void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
     super.onChange(bloc, change);
+    AppLog.d('onChange(${bloc.runtimeType}, $change)');
   }
 
   @override
-  void onError(
-    BlocBase<dynamic> bloc,
-    Object error,
-    StackTrace stackTrace,
-  ) {
+  void onError(BlocBase<dynamic> bloc, Object error, StackTrace stackTrace) {
     AppLog.e(
       'onError(${bloc.runtimeType})',
       error: error,

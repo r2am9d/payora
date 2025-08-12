@@ -107,11 +107,11 @@ abstract class AppLocalizations {
   /// **'Wallet'**
   String get bottomNavbarItemWallet;
 
-  /// No description provided for @bottomNavbarItemTransactions.
+  /// No description provided for @bottomNavbarItemTransaction.
   ///
   /// In en, this message translates to:
-  /// **'Transactions'**
-  String get bottomNavbarItemTransactions;
+  /// **'Transaction'**
+  String get bottomNavbarItemTransaction;
 
   /// No description provided for @bottomNavbarItemProfile.
   ///
@@ -143,11 +143,11 @@ abstract class AppLocalizations {
   /// **'Send Money'**
   String get walletActionsItemSendMoney;
 
-  /// No description provided for @walletActionsItemViewTransactions.
+  /// No description provided for @walletActionsItemViewTransaction.
   ///
   /// In en, this message translates to:
-  /// **'View Transactions'**
-  String get walletActionsItemViewTransactions;
+  /// **'View Transaction'**
+  String get walletActionsItemViewTransaction;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

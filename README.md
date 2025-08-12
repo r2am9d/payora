@@ -8,22 +8,42 @@ Next-gen wallet for next-gen living
 
 ---
 
-## Dependency Requirement
+## 📖 Documentation
+
+- **[📋 Design Documentation](DESIGN.md)** - Comprehensive architecture, class diagrams, and sequence diagrams
+- **[🏗️ API Documentation](docs/api.md)** *(Coming Soon)*
+- **[🧪 Testing Guide](docs/testing.md)** *(Coming Soon)*
+
+---
+
+## 🔐 Default Credentials
+
+- User: jdoe
+- Password: admin12345
+
+Or configure it manually via:
+
+```dart
+// lib/core/config/app/user.dart
+const defaultUser = User(
+  id: 1,
+  username: 'jdoe',
+  password: 'admin12345',
+  details: Details(
+    firstname: 'John',
+    lastname: 'Doe',
+    balance: 50000,
+  ),
+);
+```
+
+## 🛠️ Dependencies/Tools
 
 - Flutter: 3.32
 - Dart: 3.8
-- VSCode (Preferred code editor)
+- Code Editor: VS Code (Preferred)
 
----
-
-## Default Credentials
-
-- Username: jdoe123
-- Password: admin123456
-
----
-
-## Getting Started 🚀
+## 🚀 Getting Started
 
 This project contains 3 flavors:
 
@@ -44,9 +64,31 @@ $ flutter run --flavor staging --target lib/main_staging.dart
 $ flutter run --flavor production --target lib/main_production.dart
 ```
 
+_\*Payora works on Android and iOS._
+
 ---
 
-## Working with Translations 🌐
+## 🧪 Running Tests
+
+To run all unit and widget tests use the following command:
+
+```sh
+$ very_good test --coverage --test-randomize-ordering-seed random
+```
+
+To view the generated coverage report you can use [lcov](https://github.com/linux-test-project/lcov).
+
+```sh
+# Generate Coverage Report
+$ genhtml coverage/lcov.info -o coverage/
+
+# Open Coverage Report
+$ open coverage/index.html
+```
+
+---
+
+## 🌐 Working with Translations
 
 This project relies on [flutter_localizations][flutter_localizations_link] and follows the [official internationalization guide for Flutter][internationalization_link].
 
@@ -155,6 +197,11 @@ To use the latest translations changes, you will need to generate them:
 flutter gen-l10n --arb-dir="lib/l10n/arb"
 ```
 
+2. Watch files during development:
+```sh
+dart run tool/watch_l10n.dart
+```
+
 Alternatively, run `flutter run` and code generation will take place automatically.
 
 [coverage_badge]: coverage_badge.svg
@@ -165,26 +212,6 @@ Alternatively, run `flutter run` and code generation will take place automatical
 [very_good_analysis_badge]: https://img.shields.io/badge/style-very_good_analysis-B22C89.svg
 [very_good_analysis_link]: https://pub.dev/packages/very_good_analysis
 [very_good_cli_link]: https://github.com/VeryGoodOpenSource/very_good_cli
-
----
-
-## Running Tests 🧪
-
-To run all unit and widget tests use the following command:
-
-```sh
-$ very_good test --coverage --test-randomize-ordering-seed random
-```
-
-To view the generated coverage report you can use [lcov](https://github.com/linux-test-project/lcov).
-
-```sh
-# Generate Coverage Report
-$ genhtml coverage/lcov.info -o coverage/
-
-# Open Coverage Report
-$ open coverage/index.html
-```
 
 ---
 

@@ -1,5 +1,10 @@
-// Pages
+// Data
+
+// Domain
+
+// Presentation
 export 'presentation/pages/wallet_page.dart';
+export 'presentation/bloc/wallet_bloc.dart';
 
 // Widgets
 export 'presentation/widgets/greetings_widget.dart';
